@@ -10,7 +10,6 @@ import { MetricCard } from "@/components/metrics-card"
 import { StockUpdateDialog } from "@/components/stock-update"
 import CustomTable from "@/components/common/table/custm-table"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 
 import { columns } from "@/components/common/column/inventory-column"
 import { inventoryData } from "@/components/common/column/inventory-column"
@@ -91,29 +90,26 @@ export default function InventoryPage() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0" align="end">
-                    <Command>
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup>
-                          {filterOptions.map((option) => (
-                            <CommandItem
-                              key={option.value}
-                              onSelect={() => {
-                                setSelectedFilter(option.value === selectedFilter ? null : option.value)
-                                setFilterOpen(false)
-                              }}
-                            >
-                              <Check
-                                className={`mr-2 h-4 w-4 ${
-                                  selectedFilter === option.value ? "opacity-100" : "opacity-0"
-                                }`}
-                              />
-                              {option.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
+                    <div className="p-2">
+                      <div className="text-sm font-medium mb-2">Filter by status</div>
+                      {filterOptions.map((option) => (
+                        <div
+                          key={option.value}
+                          className="flex items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-muted cursor-pointer"
+                          onClick={() => {
+                            setSelectedFilter(option.value === selectedFilter ? null : option.value)
+                            setFilterOpen(false)
+                          }}
+                        >
+                          <div
+                            className={`w-4 h-4 flex items-center justify-center ${selectedFilter === option.value ? "text-primary" : "text-transparent"}`}
+                          >
+                            {selectedFilter === option.value && <Check className="h-4 w-4" />}
+                          </div>
+                          <span>{option.label}</span>
+                        </div>
+                      ))}
+                    </div>
                   </PopoverContent>
                 </Popover>
               </div>
